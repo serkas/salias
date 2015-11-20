@@ -1,6 +1,13 @@
 package main
 
+import (
+	"log"
+	"net/http"
+)
 
 func main() {
-    println("hello!")
+
+	router := NewRouter()
+
+	log.Fatal(http.ListenAndServe(":8080", router))
 }
