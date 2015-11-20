@@ -1,4 +1,4 @@
-package main
+package model
 
 type Result struct  {
 	Solution string `json:"solution"`

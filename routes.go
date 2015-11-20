@@ -19,12 +19,6 @@ var routes = Routes{
 		Index,
 	},
 	Route{
-		"TextPush",
-		"POST",
-		"/textPush",
-		TextPush,
-	},
-	Route{
 		"Classify",
 		"GET",
 		"/classify",
