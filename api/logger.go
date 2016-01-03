@@ -1,5 +1,4 @@
-package main
-
+package api
 import (
 	"log"
 	"net/http"

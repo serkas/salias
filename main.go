@@ -1,13 +1,14 @@
 package main
 
 import (
+	"salias/api"
 	"log"
 	"net/http"
 )
 
 func main() {
 
-	router := NewRouter()
+	router := api.NewRouter()
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
