@@ -24,4 +24,10 @@ var routes = Routes{
 		"/classify",
 		Classify,
 	},
+	Route{
+		"Analyze",
+		"GET",
+		"/analyze",
+		Analyze,
+	},
 }

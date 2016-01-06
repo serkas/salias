@@ -47,6 +47,13 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func Analyze(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(model.Result{"", true, ""}); err != nil {
+		panic(err)
+	}
+}
 
 func successJson(w http.ResponseWriter, result model.Result)  {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
