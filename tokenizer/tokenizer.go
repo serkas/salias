@@ -13,9 +13,9 @@ func Tokenize(str string) ([]*Token) {
 	for _, part := range stringParts {
 		part = strings.TrimSpace(part)
 		if part != "" {
-			token := new(Token)
-			token.value = part
-			result = append(result, token)
+			token := Token{part}
+			token = Normalize(token)
+			result = append(result, &token)
 		}
 	}
 	return result
