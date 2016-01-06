@@ -28,8 +28,10 @@ func Classify(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	doc := model.MakeDoc(task.Text);
+	info := model.Info{len(doc.Tokens)}
 	result := model.Result{
-		Status: true, Error: "", Solution: task.Text,
+		Status: true, Error: "", Solution: "", Info: &info,
 	}
 	successJson(w, result);
 }
@@ -44,7 +46,7 @@ func Analyze(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	}else{
 		w.WriteHeader(http.StatusBadRequest)
-		res = model.Result{"", false, "Bad request. Text property not set or empty"}
+		res = model.Result{"", false, "Bad request. Text property not set or empty", nil}
 	}
 
 	if err := json.NewEncoder(w).Encode(res); err != nil {
