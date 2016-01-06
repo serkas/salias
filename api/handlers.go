@@ -7,9 +7,11 @@ import (
 	"io"
 
 	"salias/model"
+	"salias/tokenizer"
+	"strings"
 )
 
-func Classify(w http.ResponseWriter, r *http.Request)  {
+func Classify(w http.ResponseWriter, r *http.Request) {
 
 
 	var task model.Task
@@ -48,14 +50,27 @@ func Index(w http.ResponseWriter, r *http.Request) {
 }
 
 func Analyze(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	if err := json.NewEncoder(w).Encode(model.Result{"", true, ""}); err != nil {
-		panic(err)
+	text := r.URL.Query().Get("text")
+	if text != "" {
+		tokens := tokenizer.TokenizeToStrings(text)
+		res := model.SuccessResult(strings.Join(tokens, ", "))
+
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusOK)
+		if err := json.NewEncoder(w).Encode(res); err != nil {
+			panic(err)
+		}
+	}else{
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusBadRequest)
+		res := model.Result{"", false, "Bad request. Text property not set or empty"}
+		if err := json.NewEncoder(w).Encode(res); err != nil {
+			panic(err)
+		}
 	}
 }
 
-func successJson(w http.ResponseWriter, result model.Result)  {
+func successJson(w http.ResponseWriter, result model.Result) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(result); err != nil {

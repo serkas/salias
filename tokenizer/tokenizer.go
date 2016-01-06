@@ -21,3 +21,12 @@ func Tokenize(str string) ([]*Token) {
 	return result
 }
 
+func TokenizeToStrings(str string) ([]string) {
+	tokens := Tokenize(str)
+	tokensStr := []string{}
+	for _, token := range tokens {
+		tokensStr = append(tokensStr, token.value)
+	}
+	return tokensStr
+}
+
