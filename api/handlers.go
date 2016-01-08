@@ -22,11 +22,13 @@ func Classify(w http.ResponseWriter, r *http.Request) {
 	}
 	if err := json.Unmarshal(body, &task); err != nil {
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-		w.WriteHeader(422) // unprocessable entity
+		w.WriteHeader(422)
 		if err := json.NewEncoder(w).Encode(err); err != nil {
 			panic(err)
 		}
 	}
+
+	model.InitStorage().SaveTask(&task)
 
 	doc := model.MakeDoc(task.Text);
 	info := model.Info{len(doc.Tokens)}
@@ -34,6 +36,16 @@ func Classify(w http.ResponseWriter, r *http.Request) {
 		Status: true, Error: "", Solution: "", Info: &info,
 	}
 	successJson(w, result);
+}
+
+func ShowTasks(w http.ResponseWriter, r *http.Request)  {
+	s := model.InitStorage()
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(s.Tasks()); err != nil {
+		panic(err)
+	}
+
 }
 
 func Analyze(w http.ResponseWriter, r *http.Request) {
