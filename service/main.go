@@ -1,7 +1,7 @@
 package main
 
 import (
-	"salias/api"
+	"salias/service/api"
 	"log"
 	"net/http"
 )
