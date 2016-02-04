@@ -1,6 +1,6 @@
 package model
 
-import "salias/tokenizer"
+import "salias/core/tokenizer"
 
 type Doc struct {
 	Text string

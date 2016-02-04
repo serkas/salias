@@ -6,8 +6,8 @@ import (
 	"io/ioutil"
 	"io"
 
-	"salias/model"
-	"salias/tokenizer"
+	"salias/service/model"
+	"salias/core/tokenizer"
 	"strings"
 )
 
