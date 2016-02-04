@@ -9,6 +9,7 @@ import (
 	"salias/service/model"
 	"salias/core/tokenizer"
 	"strings"
+	"salias/core/objects"
 )
 
 func Classify(w http.ResponseWriter, r *http.Request) {
@@ -30,7 +31,7 @@ func Classify(w http.ResponseWriter, r *http.Request) {
 
 	model.InitStorage().SaveTask(&task)
 
-	doc := model.MakeDoc(task.Text);
+	doc := objects.MakeDoc(task.Text);
 	info := model.Info{len(doc.Tokens)}
 	result := model.Result{
 		Status: true, Error: "", Solution: "", Info: &info,

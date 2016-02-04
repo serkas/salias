@@ -6,6 +6,6 @@ import (
 
 
 func Normalize(t Token) (Token) {
-	t.value = strings.ToLower(t.value)
+	t.Value = strings.ToLower(t.Value)
 	return t
 }

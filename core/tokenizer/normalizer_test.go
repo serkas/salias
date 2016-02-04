@@ -21,8 +21,8 @@ func TestCyrillic(t *testing.T) {
 
 func compare(t *testing.T, normal Token, tested Token)  {
 
-	if normal.value != tested.value {
-		t.Error("Expected", normal.value, "got", tested.value)
+	if normal.Value != tested.Value {
+		t.Error("Expected", normal.Value, "got", tested.Value)
 	}
 }
 

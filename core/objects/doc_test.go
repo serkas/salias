@@ -1,4 +1,4 @@
-package model
+package objects
 
 import "testing"
 
@@ -15,3 +15,13 @@ func TestMakeDoc(t *testing.T) {
 	}
 }
 
+func TestCountTokens(t *testing.T) {
+	test := "aa bb cc bb"
+	doc := MakeDoc(test)
+	counts := doc.CountTokens()
+
+	if counts["bb"] != 2 {
+		t.Error("There are 2 `bb` tokens in string `", test, "`, got", counts["bb"])
+	}
+
+}

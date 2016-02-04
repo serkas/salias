@@ -27,8 +27,8 @@ func TestSpaces(t *testing.T) {
 	}
 
 	testToken := tokens[0]
-	if testToken.value != "токен" {
-		t.Error("Expected token `токен`, got", testToken.value)
+	if testToken.Value != "токен" {
+		t.Error("Expected token `токен`, got", testToken.Value)
 	}
 }
 
@@ -52,8 +52,8 @@ func compareTokens(t *testing.T, tested []*Token, need []*Token) bool {
 		return false
 	}
 	for index, token := range tested {
-		if token.value != need[index].value {
-			t.Error(token.value, "!=", need[index].value)
+		if token.Value != need[index].Value {
+			t.Error(token.Value, "!=", need[index].Value)
 			return false
 		}
 	}
