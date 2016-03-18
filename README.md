@@ -1,3 +1,3 @@
 # salias
 
-Text classification service engine with REST interface
+Text classification engine with REST interface. 
