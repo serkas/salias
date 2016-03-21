@@ -2,17 +2,21 @@ package solver
 
 import (
 	"salias/core/objects"
+	"math"
 )
 
 type NaiveClassifier struct {
 	Info    map[string]string
 	classes []string
+	priors map[string]float64
+	conditionals map[TermClass]float64
 }
 
 type TermClass struct {
 	term  string
 	class string
 }
+
 
 func (cls *NaiveClassifier) State() string {
 	stat, ok := cls.Info["state"]
@@ -24,17 +28,44 @@ func (cls *NaiveClassifier) State() string {
 
 func (cls *NaiveClassifier) TrainOnText(set []string, solved []string) error {
 	var err error
-	//priorP := priors(solved)
-	//classes := byClass(set, solved)
+	cls.priors = priors(solved)
+	cls.conditionals = conditionals(set, solved)
 	return err
 }
 
 
 func (cls *NaiveClassifier) Solve(task string) (string, error) {
 	var err error
-	return "0", err
+	var result string
+	bestScore := 0.0
+
+	scores := cls.classScores(task)
+
+	for class, score := range scores {
+		println(class, score)
+		if score > bestScore {
+			result = class
+			bestScore = score
+		}
+	}
+	return result, err
 }
 
+func (cls *NaiveClassifier) classScores(task string) map[string]float64 {
+	scores := map[string]float64{}
+
+	_, terms := termCount([]string{task})
+
+	for _, class := range cls.classes {
+		termRelevance := 1.0
+
+		for term, termCount := range terms  {
+			termRelevance = termRelevance * math.Pow(cls.conditionals[TermClass{term, class}], float64(termCount))
+		}
+		scores[class] = cls.priors[class] * termRelevance
+	}
+	return scores
+}
 
 func priors(solved []string) map[string]float64 {
 	// Compute class (prior) probabilities
@@ -49,7 +80,7 @@ func priors(solved []string) map[string]float64 {
 	return priorClass
 }
 
-func conditionals(set []string, solved []string) (map[TermClass]float64) {
+func conditionals(set []string, solved []string) map[TermClass]float64 {
 	prob := map[TermClass]float64{}
 
 	vocab := vocabulary(set)

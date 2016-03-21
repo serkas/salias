@@ -73,8 +73,6 @@ func TestConditionals(t *testing.T) {
 	a1Prob := prob[TermClass{"a", "1"}]
 	b0Prob := prob[TermClass{"b", "0"}]
 
-    println(prob[TermClass{"c", "0"}])
-
 	if (math.Abs(a0Prob - float64(0.5)) > 0.05) {
 		t.Error("Conditional probability for class `0` and term `a` expected ~0.5, got", a0Prob)
 	}
@@ -86,4 +84,27 @@ func TestConditionals(t *testing.T) {
 	if (math.Abs(float64(b0Prob - 0.375)) > 0.05) {
 		t.Error("Conditional probability for class `1` and term `a` expected ~0.375, got", b0Prob)
 	}
+}
+
+
+func TestClassScores(t *testing.T) {
+	cls := NewNaiveClassifier([]string{"0", "1"})
+
+	task := []string{"a b", "b c c", "a a b"}
+	solution := []string{"0", "1", "0"}
+
+	cls.TrainOnText(task, solution)
+
+	test := "a b c"
+	scores := cls.classScores(test)
+
+
+	if (math.Abs(float64(scores["0"] - 0.015625)) > 0.01) {
+		t.Error("Class `0` proportional probability wrong expected ~0.015625, got", scores["0"])
+	}
+
+	if (math.Abs(float64(scores["1"] - 0.00925)) > 0.01) {
+		t.Error("Class `1` proportional probability wrong expected ~0.00925, got", scores["1"])
+	}
+
 }
