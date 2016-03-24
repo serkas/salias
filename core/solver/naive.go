@@ -60,7 +60,10 @@ func (cls *NaiveClassifier) classScores(task string) map[string]float64 {
 		termRelevance := 1.0
 
 		for term, termCount := range terms  {
-			termRelevance = termRelevance * math.Pow(cls.conditionals[TermClass{term, class}], float64(termCount))
+			if cProb, ok := cls.conditionals[TermClass{term, class}]; ok {
+				termRelevance = termRelevance * math.Pow(cProb, float64(termCount))
+			}
+
 		}
 		scores[class] = cls.priors[class] * termRelevance
 	}

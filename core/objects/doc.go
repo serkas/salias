@@ -20,3 +20,9 @@ func (doc *Doc) CountTokens() map[string]int  {
 	}
 	return counts
 }
+
+func (doc *Doc) PrintTokens() {
+	for _, t := range doc.Tokens {
+		println(t.Value)
+	}
+}
