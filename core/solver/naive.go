@@ -37,7 +37,7 @@ func (cls *NaiveClassifier) TrainOnText(set []string, solved []string) error {
 func (cls *NaiveClassifier) Solve(task string) (string, error) {
 	var err error
 	var result string
-	bestScore := 0.0
+	bestScore := -math.MaxFloat64
 
 	scores := cls.classScores(task)
 
@@ -57,15 +57,16 @@ func (cls *NaiveClassifier) classScores(task string) map[string]float64 {
 	_, terms := termCount([]string{task})
 
 	for _, class := range cls.classes {
-		termRelevance := 1.0
+		termRelevance := 0.0
 
 		for term, termCount := range terms  {
 			if cProb, ok := cls.conditionals[TermClass{term, class}]; ok {
-				termRelevance = termRelevance * math.Pow(cProb, float64(termCount))
+				logProb := math.Log10(cProb)
+				termRelevance = termRelevance + logProb * float64(termCount)
 			}
 
 		}
-		scores[class] = cls.priors[class] * termRelevance
+		scores[class] = math.Log10(cls.priors[class]) + termRelevance
 	}
 	return scores
 }
