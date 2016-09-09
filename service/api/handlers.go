@@ -2,14 +2,14 @@ package api
 
 import (
 	"encoding/json"
-	"net/http"
-	"io/ioutil"
 	"io"
+	"io/ioutil"
+	"net/http"
 
-	"salias/service/model"
-	"salias/core/tokenizer"
+	"github.com/serkas/salias/core/objects"
+	"github.com/serkas/salias/core/tokenizer"
+	"github.com/serkas/salias/service/model"
 	"strings"
-	"salias/core/objects"
 )
 
 func Classify(w http.ResponseWriter, r *http.Request) {
@@ -31,15 +31,15 @@ func Classify(w http.ResponseWriter, r *http.Request) {
 
 	model.InitStorage().SaveTask(&task)
 
-	doc := objects.MakeDoc(task.Text);
+	doc := objects.MakeDoc(task.Text)
 	info := model.Info{len(doc.Tokens)}
 	result := model.Result{
 		Status: true, Error: "", Solution: "", Info: &info,
 	}
-	successJson(w, result);
+	successJson(w, result)
 }
 
-func ShowTasks(w http.ResponseWriter, r *http.Request)  {
+func ShowTasks(w http.ResponseWriter, r *http.Request) {
 	s := model.InitStorage()
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
@@ -57,7 +57,7 @@ func Analyze(w http.ResponseWriter, r *http.Request) {
 		tokens := tokenizer.TokenizeToStrings(text)
 		res = model.SuccessResult(strings.Join(tokens, ", "))
 		w.WriteHeader(http.StatusOK)
-	}else{
+	} else {
 		w.WriteHeader(http.StatusBadRequest)
 		res = model.Result{"", false, "Bad request. Text property not set or empty", nil}
 	}

@@ -1,14 +1,14 @@
 package solver
 
 import (
-	"salias/core/objects"
+	"github.com/serkas/salias/core/objects"
 	"math"
 )
 
 type NaiveClassifier struct {
-	Info    map[string]string
-	classes []string
-	priors map[string]float64
+	Info         map[string]string
+	classes      []string
+	priors       map[string]float64
 	conditionals map[TermClass]float64
 }
 
@@ -16,7 +16,6 @@ type TermClass struct {
 	term  string
 	class string
 }
-
 
 func (cls *NaiveClassifier) State() string {
 	stat, ok := cls.Info["state"]
@@ -32,7 +31,6 @@ func (cls *NaiveClassifier) TrainOnText(set []string, solved []string) error {
 	cls.conditionals = conditionals(set, solved)
 	return err
 }
-
 
 func (cls *NaiveClassifier) Solve(task string) (string, error) {
 	var err error
@@ -59,10 +57,10 @@ func (cls *NaiveClassifier) classScores(task string) map[string]float64 {
 	for _, class := range cls.classes {
 		termRelevance := 0.0
 
-		for term, termCount := range terms  {
+		for term, termCount := range terms {
 			if cProb, ok := cls.conditionals[TermClass{term, class}]; ok {
 				logProb := math.Log10(cProb)
-				termRelevance = termRelevance + logProb * float64(termCount)
+				termRelevance = termRelevance + logProb*float64(termCount)
 			}
 
 		}
@@ -97,11 +95,11 @@ func conditionals(set []string, solved []string) map[TermClass]float64 {
 
 		for _, term := range vocab {
 			termCount := int(inClassCounts[term])
-			value := float64(termCount + 1) / float64(countClass + vSize)
+			value := float64(termCount+1) / float64(countClass+vSize)
 			prob[TermClass{term, class}] = value
 		}
 	}
-	
+
 	return prob
 }
 
@@ -121,7 +119,7 @@ func termCount(set []string) (int, map[string]int) {
 	return total, counts
 }
 
-func byClass(trainTask  []string, trainSolution []string) (map[string][]string) {
+func byClass(trainTask []string, trainSolution []string) map[string][]string {
 	classes := map[string][]string{}
 
 	for i, taskStr := range trainTask {

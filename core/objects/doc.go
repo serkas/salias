@@ -1,9 +1,9 @@
 package objects
 
-import "salias/core/tokenizer"
+import "github.com/serkas/salias/core/tokenizer"
 
 type Doc struct {
-	Text string
+	Text   string
 	Tokens []*tokenizer.Token
 }
 
@@ -12,7 +12,7 @@ func MakeDoc(text string) *Doc {
 	return &Doc{text, tokens}
 }
 
-func (doc *Doc) CountTokens() map[string]int  {
+func (doc *Doc) CountTokens() map[string]int {
 	counts := map[string]int{}
 
 	for _, t := range doc.Tokens {

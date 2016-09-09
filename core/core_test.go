@@ -1,22 +1,21 @@
 package core
 
-
 import (
+	"github.com/serkas/salias/core/solver"
 	"testing"
-	"salias/core/solver"
 )
 
 func TestNewClf(t *testing.T) {
 
 	cls := solver.NewNaiveClassifier([]string{"a"})
-	if(cls.State() != "empty"){
+	if cls.State() != "empty" {
 		t.Error("Expected Classifire in `empty` state, got", cls.State())
 	}
 }
 
 func TestNewClfFromBuilder(t *testing.T) {
 	cls := solver.NewNaiveClassifier([]string{"a"})
-	if(cls.State() != "empty"){
+	if cls.State() != "empty" {
 		t.Error("Expected Classifire in `empty` state, got", cls.State())
 	}
 }
@@ -29,18 +28,16 @@ func TestBasicClassifyNaive(t *testing.T) {
 
 	_ = cls.TrainOnText(trainTask, trainSolution)
 
-	answer, _ :=cls.Solve("a b c")
-	if(answer != "1"){
+	answer, _ := cls.Solve("a b c")
+	if answer != "1" {
 		t.Error("Classifier fails on easy task")
 	}
 
-	answer2, _ :=cls.Solve("d e c")
-	if(answer2 != "0"){
+	answer2, _ := cls.Solve("d e c")
+	if answer2 != "0" {
 		t.Error("Classifier fails on easy task")
 	}
 }
-
-
 
 func TestAdvancedClassifyNaive(t *testing.T) {
 	trainTask := []string{
@@ -123,13 +120,13 @@ func TestAdvancedClassifyNaive(t *testing.T) {
 	Excellent team player, passionate about his/her work, self-motivated and driven
 	Fluency in English`
 
-	answer, _ :=cls.Solve(rubyTask)
-	if(answer != "ruby"){
+	answer, _ := cls.Solve(rubyTask)
+	if answer != "ruby" {
 		t.Error("Classifier fails to recognize ruby vacancy")
 	}
 
-	answer2, _ :=cls.Solve(javaTask)
-	if(answer2 != "java"){
+	answer2, _ := cls.Solve(javaTask)
+	if answer2 != "java" {
 		t.Error("Classifier fails to recognize java vacancy")
 	}
 }

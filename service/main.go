@@ -1,7 +1,7 @@
 package main
 
 import (
-	"salias/service/api"
+	"github.com/serkas/salias/service/api"
 	"log"
 	"net/http"
 )
@@ -9,6 +9,6 @@ import (
 func main() {
 	port := "9020"
 	router := api.NewRouter()
-
-	log.Fatal(http.ListenAndServe(":" + port, router))
+	log.Printf("Now start server on port %s", port)
+	log.Fatal(http.ListenAndServe(":"+port, router))
 }
